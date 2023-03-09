@@ -4,6 +4,7 @@ import com.sparta.spring_hw.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -14,28 +15,36 @@ public class Post extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
-    private String pw;
+    private String title;
 
     @Column(nullable = false)
     private String contents;
 
-    public Post(PostRequestDto requestDto) {
-        this.title = requestDto.getTitle();
-        this.username = requestDto.getUsername();
-        this.pw = requestDto.getPw();
-        this.contents = requestDto.getContents();
+    public Post(PostRequestDto postRequestDto, User user) {
+        this.username = user.getUsername();
+        this.title = postRequestDto.getTitle();
+        this.contents = postRequestDto.getContents();
+        this.user = user;
     }
 
-    public void update(PostRequestDto requestDto){
-        this.title = requestDto.getTitle();
-        this.username =requestDto.getUsername();
-        this.contents = requestDto.getContents();
+    public void update(PostRequestDto postRequestDto){
+        this.title = postRequestDto.getTitle();
+        this.contents = postRequestDto.getContents();
+    }
+
+    public LocalDateTime getCreatedAt(){
+        return super.getCreatedAt();
+    }
+
+    public LocalDateTime getModifiedAt(){
+        return super.getModifiedAt();
     }
 }

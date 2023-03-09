@@ -1,13 +1,11 @@
 package com.sparta.spring_hw.dto;
 
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
+@Setter
 @Getter
-@ToString
-public class PostRequestDto {
-    private String title;
+public class LoginRequestDto {
     private String username;
     private String password;
-    private String contents;
 }
